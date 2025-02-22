@@ -9,12 +9,9 @@ const Footer = () => {
                     <Col className="text-center">
                     <p>Copyright © PizzeriaApp 2025.</p>
                     </Col>
-
                 </Row>
             </Container>
-
         </footer>
     )
 };
-
 export default Footer;

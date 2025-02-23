@@ -2,6 +2,7 @@ import React from 'react';
 import {Container} from 'react-bootstrap';
 import TableForm from '../features/TableForm';
 import useTable from '../features/useTable';
+import Loading from '../features/Loading';
 
 const Table = () => {
 
@@ -11,11 +12,7 @@ const Table = () => {
     } = useTable();
 
     if (!table) {
-        return <h2>Loading...</h2>;
-    }
-
-    if(!table){
-        return <h2>Loading...</h2>
+        return <Loading message="Loading Table..." />;
     }
 
     return (

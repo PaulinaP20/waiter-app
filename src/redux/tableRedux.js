@@ -1,4 +1,4 @@
-//selectors
+import { API_URL } from "../config";
 
 const createActionName=actionName =>`app/tables/${actionName}`;
 
@@ -14,21 +14,27 @@ export const fetchTables=(tables)=>({type:FETCH_TABLES,payload:tables});
 export const fetchTableById=(table)=>({type:FETCH_TABLE_BY_ID, payload:table})
 export const updateTables=(payload) => ({type: UPDATE_TABLES, payload});
 
+
 export const loadTablesFromApi =()=> {
   return dispatch=>{
-    fetch('http://localhost:3131/api/tables')
+    fetch(`${API_URL}/tables`)
       .then(res=>res.json())
       .then(data=>dispatch(fetchTables(data)))
   };
 };
 
 export const loadTableByIdFromApi = (id) => {
-  return dispatch=> {
-    fetch(`http://localhost:3131/tables/${id}`)
-      .then(res => res.json())
-      .then(data => dispatch(fetchTableById(data)));
-  }
-}
+  return (dispatch) => {
+    fetch(`${API_URL}/tables/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`Błąd: ${res.status} - ${res.statusText}`);
+        return res.json();
+      })
+      .then(data => {
+        dispatch(fetchTableById(data));
+      })
+  };
+};
 
 //action creators
 const tablesReducer = (statePart = [], action) => {
@@ -38,8 +44,12 @@ const tablesReducer = (statePart = [], action) => {
       case FETCH_TABLE_BY_ID:
         return statePart.some(table=>table.id===action.payload.id) ? statePart.map(table=>(table.id===action.payload.id ? action.payload : table)) : [...statePart, action.payload]
       case UPDATE_TABLES:
+        console.log(action.payload);
         return statePart.map(table =>
-          table.id ===action.payload.id ? {...table, ...action.payload} : table
+          table.id ===action.payload.id ?
+          {...table,
+          ...action.payload
+          }: table
         )
       default:
         return statePart;

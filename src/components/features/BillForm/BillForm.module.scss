@@ -1,0 +1,21 @@
+.billForm {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .billLabel {
+    margin-right: 10px;
+  }
+
+  .billInputWrapper {
+    margin-left:13px;
+    gap:5px;
+    display:flex;
+    align-items: center;
+    margin-bottom:5px
+  }
+
+  .billInput {
+    width: 70px;
+  }

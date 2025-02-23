@@ -1,60 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { loadTableByIdFromApi, getTableById } from '../../redux/tableRedux';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import useFetchTable from './useFetchTable';
+import usePeopleAmount from './usePeopleAmount';
 import useUpdateTable from './useUpdateTable';
 
 const useTable = () => {
     const { id } = useParams();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const table = useSelector(state => getTableById(state, id));
+    const { table, loading } = useFetchTable(id);
     const { handleSubmit } = useUpdateTable(id);
-
     const [status, setStatus] = useState('');
-    const [peopleAmount, setPeopleAmount] = useState('');
-    const [maxPeopleAmount, setMaxPeopleAmount] = useState('');
     const [bill, setBill] = useState('');
-    const [loading, setLoading] = useState(true);
+
+    const {
+        peopleAmount,
+        maxPeopleAmount,
+        handlePeopleAmount,
+        handleMaxPeopleAmount,
+        setPeopleAmount,
+        setMaxPeopleAmount
+    } = usePeopleAmount('', '', status);
 
     useEffect(() => {
-        dispatch(loadTableByIdFromApi(id));
-    }, [dispatch, id]);
-
-    useEffect(() => {
-        if (table) {
+        if (table && !loading) {
             setStatus(table.status);
             setPeopleAmount(table.peopleAmount);
             setMaxPeopleAmount(table.maxPeopleAmount);
             setBill(table.bill);
-            setLoading(false);
-        } else if (!loading) {
-            navigate('/');
         }
-    }, [table, id, navigate, loading]);
-
-    useEffect(()=> {
-        if(status==='Free' || status==="Cleaning"){
-            setPeopleAmount(0);
-        }
-    }, [status]);
-
-    const handlePeopleAmount = (e) => {
-        let newValue = Number(e.target.value);
-        if (newValue < 0) newValue = 0;
-        if (newValue > 10) newValue = 10;
-        if (newValue > maxPeopleAmount) newValue = maxPeopleAmount;
-        setPeopleAmount(newValue);
-    };
-
-    const handleMaxPeopleAmount = (e) => {
-        let newValue = Number(e.target.value);
-        if (newValue < 0) newValue = 0;
-        if (newValue > 10) newValue = 10;
-        if (newValue < peopleAmount) setPeopleAmount(newValue);
-        setMaxPeopleAmount(newValue);
-    };
+    }, [table, loading, setPeopleAmount, setMaxPeopleAmount]);
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -63,7 +36,7 @@ const useTable = () => {
             status,
             peopleAmount,
             maxPeopleAmount,
-            bill: bill || 0,
+            bill: status !== "Busy" ? 0 : bill
         };
         handleSubmit(updatedTable);
     };

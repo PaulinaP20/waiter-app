@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Form} from 'react-bootstrap'
-import BillForm from './BillForm';
-import PeopleAmountForm from './PeopleAmountForm'
-import StatusForm from './StatusForm'
+import BillForm from './BillForm/BillForm'
+import PeopleAmountForm from './PeopleAmountForm/PeopleAmountForm'
+import StatusForm from './StatusForm/StatusForm'
 
 
 const TableForm = ({status, setStatus, peopleAmount, maxPeopleAmount, handlePeopleAmount, handleMaxPeopleAmount, bill, setBill, handleSubmit}) => {
@@ -17,7 +17,6 @@ const TableForm = ({status, setStatus, peopleAmount, maxPeopleAmount, handlePeop
             {status==="Busy" && <BillForm bill={bill || 0} setBill={setBill}/>}
             <Button onClick={handleSubmit}>Update</Button>
         </Form>
-
     )
 }
 

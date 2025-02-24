@@ -1,7 +1,7 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import {Container} from 'react-bootstrap'
-import Home from './components/pages/Home.js';
+import Home from './components/pages/Home/Home.js';
 import Table from './components/pages/Table.js';
 import NotFound from './components/pages/NotFound.js';
 import Header from './components/views/Header.js';

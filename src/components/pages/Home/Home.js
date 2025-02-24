@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, ListGroup, Button } from 'react-bootstrap';
-import { loadTablesFromApi } from '../../redux/tableRedux';
-import Loading from '../features/Loading';
+import styles from './Home.module.scss'
+import { loadTablesFromApi } from '../../../redux/tableRedux';
+import Loading from '../../features/Loading';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Home = () => {
             <h2>All Tables</h2>
             <ListGroup>
                 {tables.map(table => (
-                    <ListGroup.Item key={table.id} className="d-flex justify-content-between">
+                    <ListGroup.Item key={table.id} className={styles.homeTable}>
                         <div>
                             <strong>Table {table.id}</strong> <b>Status: </b> {table.status}
                         </div>

@@ -27,7 +27,7 @@ const Home = () => {
                         <div>
                             <strong>Table {table.id}</strong> <b>Status: </b> {table.status}
                         </div>
-                        <Link to={`api/table/${table.id}`}>
+                        <Link to={`/api/table/${table.id}`}>
                             <Button className="float-end">Show more</Button>
                         </Link>
                     </ListGroup.Item>
